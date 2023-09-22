@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><%= title %></title>
+		<%- include('partials/header') %>
+	</head>
+	<body id="games">
+		<%- include('partials/navbar')%>
+		<div class="content">
+			<section id="cards">
+				<div class="card">
+					<div class="title">
+						<h2>Snake Colors</h2>
+					</div>
+					<div class="img">
+						<img
+							src="/static/snake.png
+						"
+							alt=""
+						/>
+					</div>
+					<div class="desc">
+						<p>
+							Juega el snake de toda la vida, puedes salir de la pantalla sin
+							morir pero si te chocas contra tu propio cuerpo pierdes e inicia
+							de nuevo, ¡Ten cuidado no te comas las manzanas que no son!
+						</p>
+					</div>
+					<div class="btn">
+						<a href="games/snake" class="btn1"
+							>¡Juega ya! <i class="fa-solid fa-gamepad"></i
+						></a>
+					</div>
+				</div>
+				<div class="card">
+					<div class="title">
+						<h2>¡preparáte, mira y reacciona!</h2>
+					</div>
+					<div class="img">
+						<img src="/static/mecanografia.png" height="265px" />
+					</div>
+					<div class="desc">
+						<p>
+							Mira atentamente al teclado en pantalla y fijate en que tecla se
+							marcará para presionar, por cada tecla acertada se te dará un
+							punto, haz uso de las combinaciones para algunas teclas
+						</p>
+					</div>
+					<div class="btn">
+						<a href="games/key-reaction" class="btn1"
+							>¡Juega ya! <i class="fa-solid fa-gamepad"></i
+						></a>
+					</div>
+				</div>
+			</section>
+		</div>
+		<script src="../public/main.js"></script>
+	</body>
+</html>

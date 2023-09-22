@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Key Reaction | infortega</title>
+		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="../../public/index.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<style>
+			body {
+	background-color: black;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.title {
+	color: mintcream;
+	text-transform: uppercase;
+	margin-top: 3em;
+	margin-bottom: 3em;
+	font-size: 1em;
+	letter-spacing: 0.3em;
+}
+
+.score {
+	color: white;
+}
+
+.keyboard {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	list-style: none;
+	display: flex;
+}
+
+li {
+	height: 3em;
+	width: 3em;
+	color: rgba(0, 0, 0, 0.7);
+	border-radius: 0.4em;
+	line-height: 3em;
+	letter-spacing: 1px;
+	margin: 0.4em;
+	transition: 0.3s;
+	text-align: center;
+	font-size: 1em;
+}
+
+#TAB {
+	width: 5em;
+}
+
+#CAPS {
+	width: 6em;
+}
+
+#LEFT-SHIFT {
+	width: 8em;
+}
+
+#ENTER {
+	width: 6em;
+}
+
+#RIGHT-SHIFT {
+	width: 8em;
+}
+
+#BACK {
+	width: 5em;
+}
+
+.pinky {
+	background-color: crimson;
+	border: 2px solid crimson;
+}
+
+.pinky.selected {
+	color: crimson;
+}
+
+.ring {
+	background-color: coral;
+	border: 2px solid coral;
+}
+
+.ring.selected {
+	color: coral;
+}
+
+.middle {
+	background-color: darkorange;
+	border: 2px solid darkorange;
+}
+
+.middle.selected {
+	color: darkorange;
+}
+
+.pointer1st {
+	background-color: gold;
+	border: 2px solid gold;
+}
+
+.pointer1st.selected {
+	color: gold;
+}
+
+.pointer2nd {
+	background-color: khaki;
+	border: 2px solid khaki;
+}
+
+.pointer2nd.selected {
+	color: khaki;
+}
+
+.fill-out-key {
+	background-color: slategrey;
+	border: 2px solid slategrey;
+}
+
+.selected {
+	background-color: transparent;
+	animation: vibrate-1 0.3s linear infinite both;
+}
+
+.hit {
+	animation: hit 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+@keyframes hit {
+	0% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes vibrate-1 {
+	0% {
+		transform: translate(0);
+	}
+	20% {
+		transform: translate(-2px, 2px);
+	}
+	40% {
+		transform: translate(-2px, -2px);
+	}
+	60% {
+		transform: translate(2px, 2px);
+	}
+	80% {
+		transform: translate(2px, -2px);
+	}
+	100% {
+		transform: translate(0);
+	}
+}
+.desc {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-style: italic;
+	color: white;
+}
+
+.start {
+	text-decoration: none;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	width: 100px;
+	height: 50px;
+	align-items: center;
+	background: none;
+	color: white;
+	border: 3px solid #72ff47;
+	border-radius: 20px;
+	transition: all 0.5s;
+}
+
+.start:hover {
+	background: rgba(114, 255, 71, 0.2392156863);
+	cursor: pointer;
+	transform: scale(1.1);
+	font-weight: bold;
+}
+.btn1 {
+	background-color: #5a5dff;
+	color: white;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 15px;
+	transition: all 0.4s;
+	border: 1px solid white;
+}
+
+.btn1:hover {
+	background-color: #4caf50;
+	transform: scale(1.1);
+} /*# sourceMappingURL=style.css.map */
+
+		</style>
+	</head>
+	<body>
+		<h1 class="title">OJOS EN LA PANTALLA</h1>
+		<h2 class="score">Score: <span id="score"></span></h2>
+		<h2 class="score">High Score: <span id="high"></span></h2>
+		<div class="keyboard">
+			<ul class="row row-0">
+				<li class="pinky" id="ESC">ESC</li>
+				<li class="pinky" id="1">1</li>
+				<li class="ring" id="2">2</li>
+				<li class="middle" id="3">3</li>
+				<li class="pointer1st" id="4">4</li>
+				<li class="pointer2nd" id="5">5</li>
+				<li class="pointer2nd" id="6">6</li>
+				<li class="pointer1st" id="7">7</li>
+				<li class="middle" id="8">8</li>
+				<li class="ring" id="9">9</li>
+				<li class="pinky" id="0">0</li>
+				<li class="pinky" id="-">-</li>
+				<li class="pinky" id="=">=</li>
+					<i class="fa-solid fa-left-long"></i>
+				</li>
+			</ul>
+			<ul class="row row-1">
+				<li class="pinky" id="TAB">TAB</li>
+				<li class="pinky" id="Q">Q</li>
+				<li class="ring" id="W">W</li>
+				<li class="middle" id="E">E</li>
+				<li class="pointer1st" id="R">R</li>
+				<li class="pointer2nd" id="T">T</li>
+				<li class="pointer2nd" id="Y">Y</li>
+				<li class="pointer1st" id="U">U</li>
+				<li class="middle" id="I">I</li>
+				<li class="ring" id="O">O</li>
+				<li class="pinky" id="P">P</li>
+				<li class="pinky" id="[">[</li>
+				<li class="pinky" id="]">]</li>
+				<li class="pinky barra" id="\">\</li>
+			</ul>
+			<ul class="row row-2">
+				<li class="pinky" id="CAPSLOCK">CAPSLOCK</li>
+				<li class="pinky" id="A">A</li>
+				<li class="ring" id="S">S</li>
+				<li class="middle" id="D">D</li>
+				<li class="pointer1st" id="F">F</li>
+				<li class="pointer2nd" id="G">G</li>
+				<li class="pointer2nd" id="H">H</li>
+				<li class="pointer1st" id="J">J</li>
+				<li class="middle" id="K">K</li>
+				<li class="ring" id="L">L</li>
+				<li class="pinky" id=";">;</li>
+				<li class="pinky" id="ENTER">ENTER</li>
+			</ul>
+			<ul class="row row-3">
+				<li class="pinky" id="SHIFT">SHIFT</li>
+				<li class="pinky" id="Z">Z</li>
+				<li class="ring" id="X">X</li>
+				<li class="middle" id="C">C</li>
+				<li class="pointer1st" id="V">V</li>
+				<li class="pointer2nd" id="B">B</li>
+				<li class="pointer2nd" id="N">N</li>
+				<li class="pointer1st" id="M">M</li>
+				<li class="middle" id=",">,</li>
+				<li class="ring" id=".">.</li>
+				<li class="pinky" id="/">/</li>
+				<li class="pinky" id="SHIFT">SHIFT</li>
+			</ul>
+		</div>
+		<h1 class="title">MANOS EN EL TECLADO</h1>
+		<div class="volver" style="margin-top: 20px">
+			<center>
+				<a href="/games" class="btn1"
+					><i class="fa-solid fa-caret-left"></i> Volver
+				</a>
+			</center>
+		</div>
+		<script>
+			const keys = document.querySelectorAll('.keyboard li');
+let Score = document.getElementById('score');
+let highScore = document.getElementById('high');
+let score = 0;
+let high = 0;
+
+if (localStorage.getItem('mecanografia_highScore')) {
+	high = localStorage.getItem('mecanografia_highScore');
+}
+
+highScore.innerHTML = high;
+Score.innerHTML = score;
+
+function getRandomNumber(min, max) {
+	min = Math.floor(min);
+	max = Math.ceil(max);
+	return Math.ceil(Math.random() * (min - max + 1) + max);
+}
+
+function getRandomKey() {
+	return keys[getRandomNumber(0, keys.length - 1)];
+}
+
+function targetRandomKey() {
+	const key = getRandomKey();
+	key.classList.add('selected');
+}
+
+document.addEventListener('keydown', (e) => {
+	const keyPressed = e.key.toUpperCase();
+	const keyElement = document.getElementById(keyPressed);
+	const highlightedKey = document.querySelector('.selected');
+	keyElement.classList.add('hit');
+
+	keyElement.addEventListener('animationend', () => {
+		keyElement.classList.remove('hit');
+	});
+
+	if (keyPressed === highlightedKey.innerHTML) {
+		highlightedKey.classList.remove('selected');
+		score++;
+		Score.innerHTML = score;
+		if (score > high) {
+			high = score;
+			highScore.innerHTML = high;
+			localStorage.setItem('mecanografia_highScore', high)
+			let high2 = document.cookie = `mecanografia-${Date.now()}=${high};`;
+			console.log(high2);
+			
+		}
+		if (keyPressed === 'CAPSLOCK') {
+			keyElement.classList.remove('selected');
+		}
+		targetRandomKey();
+	}
+});
+
+targetRandomKey();
+
+		</script>
+	</body>
+</html>

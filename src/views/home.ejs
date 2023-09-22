@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home | Infortega</title>
+		<%- include('partials/header')%>
+	</head>
+	<body id="index">
+		<%- include('partials/navbar') %>
+
+		<div class="content">
+			<div class="article">
+				<div class="title">
+					<h1>
+						Bienvenido a Infortega <i class="fa-solid fa-laptop-code"></i>
+					</h1>
+				</div>
+				<div class="text">
+					<p>
+						Infortega es un proyecto realizado para el dia de la ciencia, en el
+						cual podrás encontrar distintos juegos hechos por los mismos
+						estudiantes del Ortega.
+					</p>
+				</div>
+				<div class="image">
+					<img src="./static/img/NoImage.jpg" alt="" />
+				</div>
+			</div>
+			<div class="article">
+				<div class="title">
+					<h1>¡Aprovecha y diviertete! <i class="fa-solid fa-gamepad"></i></h1>
+				</div>
+				<div class="text">
+					<p>
+						Aprovecha en este dia para ganar puntos extrás en asignaturas y
+						diviertete, que al fin al cabo,
+						<b>¡esa es la gracia de la ciencia!</b>
+					</p>
+					<div class="btn">
+						<button class="btn-play" onClick="window.location.href = '/games'">
+							Jugar <i class="fa-solid fa-gamepad"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="public/main.js"></script>
+	</body>
+</html>

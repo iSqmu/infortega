@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Snake</title>
+		<style>
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+			}
+
+			body {
+				background-color: #111111;
+				opacity: 1;
+				font-family: 'Preahvihear', sans-serif;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			canvas {
+				border: 3px solid white;
+				background-color: #324a5f5b;
+			}
+
+			#p1 {
+				color: #ffffff;
+				position: absolute;
+				/* left: 100px; */
+				top: 10px;
+				font-family: cursive;
+				font-size: x-large;
+			}
+
+			#p2 {
+				color: #ffffff;
+				position: absolute;
+				/* left: 100px; */
+				top: 30px;
+				font-family: cursive;
+				font-size: x-large;
+				margin-top: 35px;
+			}
+
+			#p3 {
+				color: #ffffff;
+				position: absolute;
+				/* left: 100px; */
+				top: 60px;
+				font-family: cursive;
+				font-size: x-large;
+				margin-top: 35px;
+			}
+
+			#score {
+				color: yellow;
+			}
+
+			#high {
+				color: #e43f5a;
+			}
+
+			.btn1 {
+				background-color: #5a5dff;
+				color: white;
+				padding: 10px;
+				text-align: center;
+				text-decoration: none;
+				border-radius: 15px;
+				transition: all 0.4s;
+				border: 1px solid white;
+			}
+
+			.btn1:hover {
+				background-color: #4caf50;
+				transform: scale(1.1);
+			}
+		</style>
+		<link rel="stylesheet" href="../../public/index.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
+
+	<body>
+		<div class="game">
+			<p id="p1">Score:<span id="score"></span></p>
+			<p id="p2">High Score:<span id="high"></span></p>
+			<p id="p3">Color:<span id="color"></span></p>
+			<canvas width="400" height="400" id="game"></canvas>
+			<div class="volver" style="margin-top: 20px">
+				<center>
+					<a href="/games" class="btn1"
+						><i class="fa-solid fa-caret-left"></i> Volver
+					</a>
+				</center>
+			</div>
+			<script>
+				var canvas = document.getElementById('game');
+				var context = canvas.getContext('2d');
+				var grid = 10;
+				var count = 0;
+				var score = 0;
+				let max = 0;
+				
+
+				if (localStorage.getItem('snake_attempts')) {
+					attempts = localStorage.getItem('snake_attempts');
+				}
+
+				if (localStorage.getItem('snake_highScore')) {
+					max = localStorage.getItem('snake_highScore');
+				}
+
+				window.onload = function () {
+					document.getElementById('high').innerHTML = max;
+					document.getElementById('score').innerHTML = score;
+					document.getElementById('color').innerHTML = 'red';
+					document.getElementById('color').style.color = 'red';
+				};
+				var snake = {
+					x: 160,
+					y: 160,
+
+					// snake velocity. moves one grid length every frame in either the x or y direction
+					dx: grid,
+					dy: 0,
+
+					// keep track of all grids the snake body occupies
+					cells: [],
+
+					// length of the snake. grows when eating an apple
+					maxCells: 4,
+				};
+
+				var foods = [
+					{ x: 320, y: 320, value: -1, color: 'white', valid: false },
+					{ x: 80, y: 80, value: 1, color: 'red', valid: true },
+					{ x: 240, y: 240, value: -1, color: 'pink', valid: false },
+				];
+
+				// get random whole numbers in a specific range
+				function getRandomInt(min, max) {
+					return Math.floor(Math.random() * (max - min)) + min;
+				}
+				// game loop
+				function loop() {
+					let colors = ['yellow', 'blue', 'red', 'purple'];
+					let colorsR = colors[Math.floor(Math.random() * colors.length)];
+
+					requestAnimationFrame(loop);
+					
+					// slow game loop to 15 fps instead of 60 (60/15 = 4)
+					if (++count < 4) {
+						return;
+					}
+					count = 0;
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					// move snake by it's velocity
+					snake.x += snake.dx;
+					snake.y += snake.dy;
+					// wrap snake position horizontally on edge of screen
+					if (snake.x < 0) {
+						snake.x = canvas.width - grid;
+					} else if (snake.x >= canvas.width) {
+						snake.x = 0;
+					}
+
+					if (snake.y < 0) {
+						snake.y = canvas.height - grid;
+					} else if (snake.y >= canvas.height) {
+						snake.y = 0;
+					}
+
+					// keep track of where snake has been. front of the array is always the head
+					snake.cells.unshift({ x: snake.x, y: snake.y });
+					// remove cells as we move away from them
+					if (snake.cells.length > snake.maxCells) {
+						snake.cells.pop();
+					}
+					// draw foods
+					foods.forEach(function (food) {
+						context.fillStyle = food.color;
+						context.fillRect(food.x, food.y, grid - 1, grid - 1);
+					});
+
+					// draw snake one cell at a time
+					context.fillStyle = '#C32FFF';
+					snake.cells.forEach(function (cell, index) {
+						// drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+						context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+						// snake ate food
+						foods.forEach(async function (food, index) {
+							if (cell.x === food.x && cell.y === food.y) {
+								if (food.valid === true) {
+									snake.maxCells++;
+									score += 1;
+
+									let randomLetter = String.fromCharCode(getRandomInt(65, 90));
+									document.getElementById('score').innerHTML = '&nbsp;' + score;
+
+									food.x = getRandomInt(0, 25) * grid;
+									food.y = getRandomInt(0, 25) * grid;
+									food.color = colorsR;
+
+									document.getElementById('color').innerHTML = colorsR;
+									document.getElementById('color').style.color = colorsR;
+									if (food.value === 1) {
+										food.x = getRandomInt(0, 25) * grid;
+										food.y = getRandomInt(0, 25) * grid;
+									}
+
+									if (score > max) {
+										document.getElementById('high').innerHTML =
+											'&nbsp;' + score;
+									}
+								} else {
+									score -= 1;
+									food.x = getRandomInt(0, 25) * grid;
+									food.y = getRandomInt(0, 25) * grid;
+									document.getElementById('score').innerHTML = '&nbsp;' + score;
+								}
+							}
+						});
+
+						// check collision with all cells after this one (modified bubble sort)
+						for (var i = index + 1; i < snake.cells.length; i++) {
+							// snake occupies same space as a body part. reset game
+							if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+								if (score > max) {
+									max = score;
+									document.getElementById('high').innerHTML = '&nbsp;' + max;
+									localStorage.setItem('snake_highScore', max);
+
+									console.log(
+										'Nuevo bestScore: ' +
+											localStorage.getItem('snake_highScore'),
+									);
+								}
+								snake.x = 160;
+								snake.y = 160;
+								snake.cells = [];
+								snake.maxCells = 4;
+								snake.dx = grid;
+								snake.dy = 0;
+								score = 0;
+								food.x = getRandomInt(0, 25) * grid;
+								food.y = getRandomInt(0, 25) * grid;
+								document.getElementById('high').innerHTML = '&nbsp;' + max;
+								document.getElementById('score').innerHTML = '&nbsp;' + score;
+							}
+						}
+					});
+				}
+				// listen to keyboard events to move the snake
+				document.addEventListener('keydown', function (e) {
+					// prevent snake from backtracking on itself by checking that it's
+					// not already moving on the same axis (pressing left while moving
+					// left won't do anything, and pressing right while moving left
+					// shouldn't let you collide with your own body)
+
+					// left arrow key
+					if (e.which === 37 && snake.dx === 0) {
+						snake.dx = -grid;
+						snake.dy = 0;
+					}
+					// up arrow key
+					else if (e.which === 38 && snake.dy === 0) {
+						snake.dy = -grid;
+						snake.dx = 0;
+					}
+					// right arrow key
+					else if (e.which === 39 && snake.dx === 0) {
+						snake.dx = grid;
+						snake.dy = 0;
+					}
+					// down arrow key
+					else if (e.which === 40 && snake.dy === 0) {
+						snake.dy = grid;
+						snake.dx = 0;
+					}
+				});
+				// start the game
+				requestAnimationFrame(loop);
+			</script>
+		</div>
+	</body>
+</html>
